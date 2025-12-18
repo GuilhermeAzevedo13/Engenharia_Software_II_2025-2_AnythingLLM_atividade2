@@ -11,15 +11,15 @@ def load_zero_shot_classifier(model_name: str = "MoritzLaurer/mDeBERTa-v3-base-x
 # ===============================================================
 # 🔹 Função de classificação por similaridade semântica
 # ===============================================================
-def classify_architecture(description: str,
-                          architecture_descriptions: Dict[str, str],
+def classify(description: str,
+                          descriptions: Dict[str, str],
                           model_name: str = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
                           multi_label: bool = True) -> Dict[str, Any]:
     """
     Usa zero-shot-classification para identificar qual arquitetura o texto mais descreve.
     """
     classifier = load_zero_shot_classifier(model_name)
-    candidate_labels = list(architecture_descriptions.keys())
+    candidate_labels = list(descriptions.keys())
 
     result = classifier(description, candidate_labels, multi_label=multi_label)
     labels_scores = list(zip(result["labels"], result["scores"]))
@@ -153,12 +153,12 @@ RELEASE_STRATEGY_DESCRIPTIONS = {
 
 print("Analisando o texto...")
 
-result = classify_architecture(texto_analise, BRANCHING_DESCRIPTIONS)
+result = classify(texto_analise, BRANCHING_DESCRIPTIONS)
 lista = []
 lista.append(result["sequence"])
 print(lista)
 pretty_print(result, top_k=4)
-result = classify_architecture(texto_analise, RELEASE_STRATEGY_DESCRIPTIONS)
+result = classify(texto_analise, RELEASE_STRATEGY_DESCRIPTIONS)
 lista = []
 lista.append(result["sequence"])
 print(lista)
