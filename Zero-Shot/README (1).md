@@ -1,44 +1,24 @@
-O código está organizado de forma sequencial e didática, seguindo cinco grandes etapas:
-
-1. Importação de bibliotecas  
-2. Definição do texto de análise  
-3. Configuração do modelo de classificação Zero-Shot  
-4. Definição das hipóteses (rótulos)  
-5. Execução da inferência e apresentação dos resultados
-
-Essa separação torna o código legível, extensível e adequado para análises acadêmicas ou experimentos exploratórios em Engenharia de Software e IA Aplicada.
-
 ## 
 
-## **Bibliotecas Utilizadas**
+Este documento apresenta uma análise técnica detalhada do código Python fornecido, cujo objetivo é realizar **classificação Zero-Shot** sobre um texto técnico de projeto de software, identificando:
 
-###  **Pandas**
+1. O **modelo de fluxo de trabalho de branching** utilizado no repositório;  
+2. A **estratégia de releases** adotada pelo projeto.
 
-A biblioteca **pandas** é utilizada exclusivamente para:
+A solução emprega um **Large Language Model (LLM)** especializado em **Natural Language Inference (NLI)**, utilizando a biblioteca **Hugging Face Transformers**, sem necessidade de treinamento supervisionado adicional.
 
-* Organizar os resultados da classificação;  
-* Criar tabelas estruturadas (DataFrames);  
-* Facilitar a apresentação final dos scores em formato percentual.
+### 
 
-Não há uso de pandas para análise estatística pesada, apenas para **formatação e visualização dos resultados**.
+A classificação Zero-Shot é uma técnica em que um modelo é capaz de classificar textos em **rótulos nunca vistos durante o treinamento específico da tarefa**, baseando-se apenas:
 
-### **Transformers (Hugging Face)**
+* No **significado semântico do texto de entrada**;  
+* Na **descrição textual dos rótulos candidatos**.
 
-A biblioteca **transformers** fornece a abstração de alto nível chamada `pipeline`, que encapsula:
+Nesse paradigma, o problema de classificação é reformulado como um problema de **inferência lógica**:
 
-* Tokenização do texto;  
-* Inferência com o modelo pré-treinado;  
-* Pós-processamento dos scores de classificação.
+*“O texto implica semanticamente a hipótese representada por este rótulo?”*
 
-Isso reduz drasticamente a complexidade do código e permite focar no problema conceitual em vez de detalhes de baixo nível.
-
-O texto armazenado em `texto_analise` funciona como um **artefato documental rico**, contendo:
-
-* Informações arquiteturais do projeto;  
-* Dados sobre branches, pull requests e CI;  
-* Informações históricas de releases e versionamento.
-
-Esse texto é propositalmente não estruturado, simulando documentação real (README, relatórios técnicos ou auditorias de repositório). A escolha desse formato é essencial para demonstrar o poder da classificação Zero-Shot, que opera diretamente sobre linguagem natural.
+Essa abordagem elimina a necessidade de datasets rotulados, tornando-a extremamente valiosa em cenários acadêmicos, análise de documentação e engenharia de software.
 
 ### 
 
@@ -46,116 +26,171 @@ O modelo utilizado é:
 
 **MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7**
 
-Esse modelo pertence à família **DeBERTa v3** e foi treinado especificamente para tarefas de:
+Trata-se de uma versão avançada do **DeBERTa v3**, treinada extensivamente para tarefas de **Natural Language Inference (NLI)** em múltiplos idiomas.
 
-* *Natural Language Inference (NLI)*;  
-* Classificação textual multilíngue;  
-* Inferência semântica entre premissas e hipóteses.
+#### **Principais características:**
 
-Em tarefas de **NLI**, o modelo aprende a responder se uma hipótese é:
+* Arquitetura baseada em **Transformer**;  
+* Atenção **disentangled**, separando conteúdo e posição;  
+* Treinamento com **mais de 2 milhões de exemplos NLI**;  
+* Suporte multilíngue (incluindo português);  
+* Excelente desempenho em tarefas Zero-Shot.
 
-* Entailment (implicada pelo texto);  
-* Contradiction (contradita pelo texto);  
-* Neutral (não inferível).
 
-A **Classificação Zero-Shot** é uma aplicação direta desse conceito: cada rótulo fornecido é tratado como uma *hipótese*, e o texto como a *premissa*.
+  ### 
 
-Isso permite avaliar se o conteúdo do texto **sustenta semanticamente** cada rótulo candidato.
+Este modelo é especialmente indicado porque:
 
-###  **Por que o mDeBERTa-v3 é uma excelente escolha?**
+* A tarefa de classificação Zero-Shot **é essencialmente NLI**;  
+* Ele foi treinado para decidir se uma hipótese é:  
+  * *entailment* (implicada),  
+  * *neutral*,  
+  * *contradiction*;  
+* Consegue lidar com **textos longos e técnicos**, como descrições de arquitetura de software;  
+* Mantém boa estabilidade de scores mesmo com múltiplos rótulos semanticamente próximos.
 
-Este modelo é particularmente adequado por vários motivos:
-
-* **Inferência lógica superior**: o DeBERTa separa explicitamente embeddings de posição e conteúdo, melhorando o raciocínio contextual.  
-* **Robustez semântica**: consegue inferir conceitos implícitos, como práticas de Git, mesmo sem termos explícitos.  
-* **Multilíngue**: funciona bem com textos em português e inglês, algo essencial neste código.  
-* **Treinamento em larga escala (XNLI)**: foi ajustado com milhões de exemplos de inferência textual.
-
-Em comparação, modelos puramente classificatórios falhariam sem fine-tuning específico.
+Na prática, cada rótulo é interpretado como uma **hipótese semântica**.
 
 ### 
 
-Na **Classificação Zero-Shot**, o modelo:
+import pandas as pd  
+from transformers import pipeline  
+from typing import Dict, Any
 
-* Não recebe exemplos rotulados do problema;  
-* Não é treinado novamente;  
-* Trabalha apenas com descrições textuais dos rótulos.
+* pandas: utilizado apenas para organização tabular dos resultados;  
+* pipeline: abstração de alto nível da Hugging Face;  
+* typing: tipagem explícita para melhor legibilidade e manutenção.
 
-O conhecimento vem inteiramente do pré-treinamento da LLM.
+
+  ### 
+
+  def load\_zero\_shot\_classifier(model\_name: str \= "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"):  
+      return pipeline("zero-shot-classification", model=model\_name)
+
+
+Este método:
+
+* Cria um pipeline especializado em zero-shot-classification;  
+* Carrega o modelo NLI;  
+* Elimina a necessidade de fine-tuning;  
+* Permite reutilização em múltiplas tarefas.
+
+
+  ### 
+
+    
+  def classify(description, descriptions, model\_name, multi\_label):
+
+
+Esta é a função central do sistema.
+
+#### **Funcionamento:**
+
+1. Recebe:  
+   * Um texto técnico (description);  
+   * Um conjunto de rótulos com descrições (descriptions);  
+2. Extrai os nomes dos rótulos como candidate\_labels;  
+3. Executa o pipeline Zero-Shot;  
+4. Retorna os rótulos ordenados por probabilidade.  
+ 
+
+
+   multi\_label=True
+
+Isso permite que:
+
+* Mais de um rótulo seja semanticamente compatível;  
+* Os scores não precisem somar 1;  
+* O modelo avalie cada hipótese de forma independente.
+
+Esse comportamento é fundamental quando conceitos são **semanticamente sobrepostos**, como:
+
+* GitHub Flow vs Trunk-Based Development;  
+* Release Train vs Semantic Versioning.
+
+A função pretty\_print:
+
+* Exibe o texto analisado;  
+* Mostra os **Top-K rótulos mais prováveis**;  
+* Estrutura os dados em um DataFrame;  
+* Facilita exportação para CSV.
 
 ### 
 
-O código define dois conjuntos distintos de hipóteses:
+Cada rótulo não é apenas um nome, mas uma **descrição textual clara**, por exemplo:
 
-#### **Modelos de Branching**
+“GitHub Flow, caracterizado por uma única branch principal (main) e branches curtas de feature...”
+
+Isso é crucial porque:
+
+* O modelo compara **significado**, não palavras-chave;  
+* Hipóteses bem descritas aumentam precisão;  
+* Reduz ambiguidades semânticas.
+
+Rótulos analisados:
 
 * GitHub Flow  
-* Gitflow  
 * Trunk-Based Development  
+* Gitflow  
 * GitLab Flow
 
-#### 
+Todos são conceitos próximos, o que torna a tarefa um excelente exemplo de classificação semântica complexa.
 
-#### **Estratégias de Release**
+### 
+
+Rótulos analisados:
 
 * Semantic Versioning  
 * Release Train  
 * Rolling Release  
 * Ad-hoc Release
 
-Esses rótulos são propositalmente descritivos e semanticamente ricos, o que melhora a capacidade do modelo de realizar inferência correta.
+Essas estratégias frequentemente coexistem, justificando novamente o uso de **multi-label**.
 
-Para cada rótulo, o modelo avalia:
+                         \- GitHub Flow                    : 0.5341  
+ 		 \- Trunk-Based Development        : 0.2828  
+  		\- Gitflow                        : 0.1507  
+ \- GitLab Flow                    : 0.0867
 
-“O texto implica que este rótulo é verdadeiro?”
+**Interpretação**:
 
-O resultado é um **score de confiança**, normalizado entre 0 e 1, que representa a probabilidade relativa daquela hipótese ser suportada pelo texto.
+* Forte evidência de **GitHub Flow**;  
+* Ausência de branch develop reduz probabilidade de Gitflow;  
+* CI intenso e branches curtas justificam proximidade com Trunk-Based Development.
 
-O pipeline é chamado duas vezes:
 
-* Uma para classificar o **modelo de branching**;  
-* Outra para classificar a **estratégia de release**.
+  ### 
 
-Cada chamada retorna:
+  ### 
 
-* Lista ordenada de rótulos (do mais provável ao menos provável);  
-* Scores associados.
+  ### 
 
-A função `criar_tabela` converte os resultados brutos em um DataFrame legível, aplicando:
+  ### 
 
-* Conversão de score para porcentagem;  
-* Organização tabular clara;  
-* Separação por categoria.
+  ### 
 
-Isso torna os resultados adequados para:
+  ### **6.2 Resultado – Estratégia de Release**
 
-* Relatórios técnicos;  
-* Trabalhos acadêmicos;  
-* Documentação de decisão arquitetural.
+  ### Top 4 estratégias mais prováveis (label : score):
 
-O rótulo com maior score é tratado como o **vencedor**, representando a inferência mais forte da LLM a partir do texto.
+  ### 
 
-É importante destacar que:
+  ###   \- Release Train                  : 0.7988
 
-* Os resultados são probabilísticos;  
-* Pequenas diferenças de score podem indicar sobreposição conceitual;  
-* A análise não substitui auditoria humana, mas fornece **forte evidência automatizada**.
+  ###   \- Semantic Versioning            : 0.5834
 
-  \=== MODELO DE BRANCHING \===
+  ###   \- Rolling Release                : 0.1941
 
-                 		Categoria Confiança (%)  
-0              GitHub Flow        41.80%  
-1  Trunk-Based Development        30.17%  
-2                  Gitflow        15.99%  
-3              GitLab Flow        12.04%
+  ###   \- Ad-hoc Release                 : 0.0168
 
-✅ Vencedor: GitHub Flow
+  ### 
 
-\=== ESTRATÉGIA DE RELEASE \===  
-             		Categoria Confiança (%)  
-0        Release Train        52.39%  
-1  Semantic Versioning        30.56%  
-2      Rolling Release        13.56%  
-3       Ad-hoc Release         3.49%
+  ### 
 
-✅ Vencedor: Release Train  
+* Releases frequentes e organizadas sugerem Release Train;  
+* Uso explícito de tags SemVer reforça Semantic Versioning;  
+* Baixa evidência de Rolling ou Ad-hoc releases.
+
+
+  
+
