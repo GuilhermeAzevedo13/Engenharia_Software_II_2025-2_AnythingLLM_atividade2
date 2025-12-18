@@ -1,5 +1,46 @@
 import pandas as pd
 from transformers import pipeline
+from typing import Dict, Any
+
+def load_zero_shot_classifier(model_name: str = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"):
+    """
+    Carrega o modelo zero-shot-classification (sem necessidade de treino).
+    """
+    return pipeline("zero-shot-classification", model=model_name)
+
+# ===============================================================
+# 🔹 Função de classificação por similaridade semântica
+# ===============================================================
+def classify_architecture(description: str,
+                          architecture_descriptions: Dict[str, str],
+                          model_name: str = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+                          multi_label: bool = True) -> Dict[str, Any]:
+    """
+    Usa zero-shot-classification para identificar qual arquitetura o texto mais descreve.
+    """
+    classifier = load_zero_shot_classifier(model_name)
+    candidate_labels = list(architecture_descriptions.keys())
+
+    result = classifier(description, candidate_labels, multi_label=multi_label)
+    labels_scores = list(zip(result["labels"], result["scores"]))
+    labels_scores = sorted(labels_scores, key=lambda x: x[1], reverse=True)
+
+    return {
+        "sequence": result.get("sequence", description),
+        "labels_scores": labels_scores
+    }
+def pretty_print(result: Dict[str, Any], top_k: int = 6):
+    print("\nTexto analisado:\n", result["sequence"][:600], "...\n")
+    print(f"Top {top_k} estratégias mais prováveis (label : score):\n")
+    lista = []
+    for label, score in result["labels_scores"][:top_k]:
+        print(f"  - {label:<30} : {score:.4f}")
+        lista.append({
+            "label": label,
+            "score": score
+        })
+    df = pd.DataFrame(data=lista)
+    #df.to_csv('Zero-Shot.csv', index=False)
 
 # ==========================================
 # PASSO 2: Configuração do Modelo e do Texto
@@ -46,27 +87,65 @@ tags para garantir estabilidade sem travar o desenvolvimento paralelo na branch 
 # Carregando o pipeline de Zero-Shot Classification
 # Usamos o 'facebook/bart-large-mnli' pois ele é excelente em inferência lógica (NLI)
 print("Carregando modelo Zero-Shot (pode demorar alguns segundos)...")
-classifier = pipeline("zero-shot-classification", model="MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7")
+
 
 # ==========================================
 # PASSO 3: Definição das Hipóteses (Rótulos)
 # ==========================================
 
-# Quais modelos de Branching queremos testar?
-labels_branching = [
-    "GitHub Flow",               # Fluxo simples, master + features
-    "Gitflow",                   # Fluxo complexo, develop + master + release branches
-    "Trunk-Based Development",   # Fluxo rápido, commits diretos na main ou branches curtas
-    "GitLab Flow"                # Variação com branches de ambiente
-]
+# ==========================================
+# PASSO 3: Definição das Hipóteses (Rótulos)
+# ==========================================
 
-# Quais estratégias de Release queremos testar?
-labels_release = [
-    "Semantic Versioning",       # Versionamento baseado em SemVer (v1.0.0)
-    "Release Train",             # Releases em datas fixas (ex: toda terça)
-    "Rolling Release",           # Atualização contínua sem versões fixas
-    "Ad-hoc Release"             # Releases manuais sob demanda
-]
+# Modelos de Branching com descrições explícitas (hipóteses NLI)
+BRANCHING_DESCRIPTIONS = {
+    "GitHub Flow": (
+         "GitHub Flow, caracterizado por uma única branch principal (main) e branches curtas de feature, "
+    "com integração contínua via pull requests"
+    ),
+
+    "Gitflow": (
+         "Gitflow, caracterizado pelo uso de branches fixas como develop, master, release e hotfix, "
+    "com ciclos de desenvolvimento bem definidos"
+    ),
+
+    "Trunk-Based Development": (
+        "Trunk-Based Development, caracterizado por commits frequentes diretamente na branch principal "
+    "ou em branches de vida muito curta, com forte uso de CI"
+    ),
+
+    "GitLab Flow": (
+        "GitLab Flow, caracterizado pela combinação de branches de feature com branches específicas "
+        "por ambiente ou versão"
+    ),
+}
+
+RELEASE_STRATEGY_DESCRIPTIONS = {
+    "Semantic Versioning": (
+        "Semantic Versioning, caracterizado pelo uso de versões no formato MAJOR.MINOR.PATCH, "
+        "indicando compatibilidade e tipo de mudança"
+    ),
+
+    "Release Train": (
+        "Release Train, caracterizado por releases em datas fixas e previsíveis, "
+        "independentemente do volume de mudanças"
+    ),
+
+    "Rolling Release": (
+        "Rolling Release, caracterizado por entregas contínuas sem versões bem definidas, "
+    "onde o software está sempre sendo atualizado"
+    ),
+
+    "Ad-hoc Release": (
+        "Ad-hoc Release, caracterizado por releases manuais e pontuais, "
+    "sem periodicidade fixa ou estratégia formal"
+    ),
+}
+
+
+# Estratégias de Release com descrições explícitas
+
+
 
 # ==========================================
 # PASSO 4: Execução da Análise
@@ -74,34 +153,13 @@ labels_release = [
 
 print("Analisando o texto...")
 
-# Classificação do Fluxo de Trabalho
-result_branch = classifier(texto_analise, labels_branching)
-
-# Classificação da Estratégia de Release
-result_release = classifier(texto_analise, labels_release)
-
-# ==========================================
-# PASSO 5: Apresentação dos Resultados
-# ==========================================
-
-# Função auxiliar para criar DataFrames bonitos
-def criar_tabela(resultado, categoria):
-    df = pd.DataFrame({
-        'Categoria': resultado['labels'],
-        'Confiança (Score)': result_branch['scores'] if categoria == 'Branching' else result_release['scores']
-    })
-    # Formata para porcentagem
-    df['Confiança (%)'] = (df['Confiança (Score)'] * 100).map('{:.2f}%'.format)
-    return df[['Categoria', 'Confiança (%)']]
-
-# Exibindo Tabela de Branching
-print("\n=== RESULTADO 1: MODELO DE BRANCHING ===")
-df_branch = criar_tabela(result_branch, 'Branching')
-print(df_branch)
-print(f"\n✅ Vencedor: {result_branch['labels'][0]}")
-
-# Exibindo Tabela de Release
-print("\n=== RESULTADO 2: ESTRATÉGIA DE RELEASE ===")
-df_release = criar_tabela(result_release, 'Release')
-print(df_release)
-print(f"\n✅ Vencedor: {result_release['labels'][0]}")
+result = classify_architecture(texto_analise, BRANCHING_DESCRIPTIONS)
+lista = []
+lista.append(result["sequence"])
+print(lista)
+pretty_print(result, top_k=4)
+result = classify_architecture(texto_analise, RELEASE_STRATEGY_DESCRIPTIONS)
+lista = []
+lista.append(result["sequence"])
+print(lista)
+pretty_print(result, top_k=4)
