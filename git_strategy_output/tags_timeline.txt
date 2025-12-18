@@ -1,0 +1,22 @@
+v1.0.0|2024-07-26|remove LMStudio restriction for model selector
+v1.1.0|2024-07-31|remove unused state
+v1.1.1|2024-08-02|add SemVer tag to docker image publication
+v1.2.0|2024-08-07|debounce piper button
+v1.2.1|2024-08-19|Add 405B to perplexity
+v1.2.2|2024-09-11|UI Cleanup (#2270)
+v1.2.3|2024-10-03|Support XLSX files (#2403)
+v1.2.4|2024-10-24|Add filtering to sessionID for workspace chats (#2531)
+v1.3.0|2024-11-26|patch button normalization for desktop builds
+v1.4.0|2025-01-29|Merge branch 'master' of github.com:Mintplex-Labs/anything-llm
+v1.7.4|2025-02-17|fix: Patch agent flow to honor agent handler established provider (#3251)
+v1.7.5|2025-03-04|Merge branch 'master' of github.com:Mintplex-Labs/anything-llm
+v1.7.6|2025-03-19|remove unused import
+v1.7.8|2025-03-26|Persist images attached in API requests to the UI for rendering (#3546)
+v1.8.0|2025-04-18|Breakup Customization super-page into subpages (#3678)
+v1.8.1|2025-05-05|more zh translations (#3769)
+v1.8.2|2025-06-10|Fix Typo in Documentation and Metadata Field Name (#3979)
+v1.8.3|2025-07-09|update 1.8.3 tags for release (#4109)
+v1.8.4|2025-07-16|1.8.4 tag update
+v1.8.5|2025-08-14|patch paths
+v1.9.0|2025-10-09|1.9.0 tag
+v1.9.1|2025-12-05|Dell model capability patch (#4719)

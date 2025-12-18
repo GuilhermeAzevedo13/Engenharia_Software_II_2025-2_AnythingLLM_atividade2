@@ -1,0 +1,70 @@
+origin/refactor-eslint-frontend|2025-12-17|angelplusultra|Update ESLint configuration to change Prettier rule from error to warning and change lint script to use eslint and prettier together
+master|2025-12-16|Marcello Fitton|Add Eslint Config in `/frontend` (#4785)
+origin|2025-12-16|Marcello Fitton|Add Eslint Config in `/frontend` (#4785)
+origin/master|2025-12-16|Marcello Fitton|Add Eslint Config in `/frontend` (#4785)
+origin/4792-feat-refactor-workspacepfp-image|2025-12-16|shatfield4|use svgr vite plugin to inline svgs
+origin/4774-feat-refactor-collector-to-remove-fluent-ffmpeg-package|2025-12-16|shatfield4|change import to require for fix-path and stub import in tests
+origin/4184-provide-privacy-policy-links-in-onboarding|2025-12-16|angelplusultra|Update LLM Provider, Embedding Engine, and Vector Database sections to include privacy policy links
+origin/vectordb-class-migration|2025-12-15|shatfield4|patch lancedb import
+origin/new-landing-ui-poc|2025-12-12|Timothy Carambat|poc of new onboarding
+origin/render|2025-12-11|Timothy Carambat|force rebase origin/master
+origin/pg|2025-12-11|Timothy Carambat|merge HEAD with 25a72f71750f002793a93c6b1e96dd9a840ae538 minor patch to revert failover to `pgvector` and hoist import since no AVX2 issues
+origin/1.9.1-rerelease|2025-12-09|Timothy Carambat|add branch specific build for relrease tag
+origin/4687-feat-refactor-vector-db-providers|2025-12-04|shatfield4|final checks on all providers/reorder base class for consistency
+origin/4615-feat-disable-apidocs-with-environment-variable|2025-11-19|shatfield4|Merge branch 'master' into 4615-feat-disable-apidocs-with-environment-variable
+origin/4559-feat-agent-web-search-enable-ordering-of-results|2025-11-06|shatfield4|move introspect to enhanceQueryForRecency function
+origin/4599-bug-ollama-race-condition-bug|2025-11-06|shatfield4|Merge branch 'master' into 4599-bug-ollama-race-condition-bug
+origin/4572-bug-lmstudio-provided-llm-stopped-working-with-anything-llm-after-upgrading-to-190|2025-10-30|shatfield4|patch race condition bug + new model download protection + add tests
+origin/4391-feat-integrate-docker-model-runner-as-a-local-inferencing-provide|2025-10-20|timothycarambat|improve model picker options and endpoint parsing
+origin/4508-agent-youtube-transcript-analysis|2025-10-14|angelplusultra|Update tests to reflect renaming of isYouTubeUrl to isYouTubeVideoUrl, ensuring all references are consistent in the URL validation tests.
+origin/4497-feat-workspace-names|2025-10-06|shatfield4|workspace/workspace thread tooltips on hover
+origin/frontend-eslint|2025-10-02|timothycarambat|eslint wip
+origin/ollama-lmstudio-auto-context-window|2025-10-01|shatfield4|auto model context limit detection for lmstudio llm provider
+origin/4431-validate-vector-database-connectioN|2025-09-29|Timothy Carambat|Merge branch 'master' into 4431-validate-vector-database-connectioN
+origin/2019-slash-command-keyboard-selection|2025-09-22|angelplusultra|Remove unused state variables from useSlashCommands hook to clean up code and improve readability.
+origin/microsoft-foundry-provider|2025-09-22|shatfield4|add foundry base path to .env example files
+origin/4431-validate-vector-database-connection|2025-09-19|Timothy Carambat|Update the timeout value on all stream-timeout providers: (#4412)
+origin/4325-sys-prompt-var-improvements|2025-09-17|timothycarambat|wip poc
+origin/3209-feat-apiv1workspacestream-chat-sources-citations|2025-09-17|Timothy Carambat|Merge branch 'master' into 3209-feat-apiv1workspacestream-chat-sources-citations
+origin/4210-bug-voice-to-text-overwrite|2025-07-28|shatfield4|stt continue at cursor position
+origin/4136-feat-jan-as-a-backend-server-option|2025-07-23|shatfield4|fix missing updateENV for jan ai
+origin/4172-feat-openai-o3-support|2025-07-17|Sean Hatfield|Clear cached docs on text splitter changes (#4163)
+origin/1.8.3-rerelease|2025-07-11|timothycarambat|patch tags
+origin/web-push-notifications-service|2025-07-11|timothycarambat|Push notification service persistence
+origin/tasks|2025-06-16|timothycarambat|more wip for browser summarization
+origin/3955-feat-jinaai-embedder-provider-support|2025-06-05|shatfield4|add jina embedding provider
+origin/3921-feat-agent-skills-uiux-improvements|2025-06-04|shatfield4|update ui for sql connector
+origin/3901-bug-validfunccall-checks-optional-arguments|2025-05-28|timothycarambat|Update Sponsors README
+origin/keyboard-dev|2025-05-27|timothycarambat|test keyboard shortcuts dev build
+origin/1787-custom-roles-and-permissions|2025-05-12|timothycarambat|default role map
+origin/add-jira-slack-data-connector|2025-04-24|shatfield4|lint
+origin/office-extension-wip|2025-04-15|timothycarambat|patch plugin path
+origin/lightmode-dropdown-color-update|2025-04-10|shatfield4|fix lightmode dropdown menu color
+origin/3586-bug-agent-flow-function-description-provided-by-user-is-not-seen-in-the-llm-query|2025-04-03|Sean Hatfield|Allow period in username (#3592)
+origin/3463-bug-agent-continues-to-run-if-request-failed-even-after-exit|2025-03-18|Weijing Jay Lin|Use concurrently to run all dev service at once (#3424)
+origin/3439-feat-call-variables-within-the-flow-api-block-url-field|2025-03-13|shatfield4|lint
+origin/3282-manager-view-models-workspace|2025-02-26|Timothy Carambat|Merge branch 'master' into 3282-manager-view-models-workspace
+origin/3280-token-counting-server-side-truncation-improvements|2025-02-19|timothycarambat|wip
+origin/3147-bug-embedded-chat-widget---not-considering-query-mode-option-always-working-in-chat-mode|2025-02-10|timothycarambat|linting
+origin/desktop|2025-02-05|timothycarambat|installer update + cdn
+origin/2995-feat-disable-temperature-setting-for-deepseek-r1-deepseek-reasoner-model|2025-01-20|timothycarambat|remove greptile link
+origin/2827-feat-perplexity-citations|2024-12-19|shatfield4|wip perplexity citations
+origin/2866-feat-finally-a-gemini-models-endpoint|2024-12-17|shatfield4|wip gemini models endpoint
+origin/2647-feat-hpp-header-for-a-c++-code-file-mime-addition|2024-11-19|timothycarambat|UI light QA
+origin/lancedb-revert|2024-08-19|timothycarambat|merge to master
+origin/1656-feat-implement-tooltip-ui-designs|2024-07-31|timothycarambat|remove duplicate case stmt
+origin/2011-feat-bump-perplexity-models|2024-07-31|timothycarambat|Bump Perplexity and Together AI static model list
+origin/1873-feat-auto-add-and-watch-folder-for-document-uploads|2024-07-15|timothycarambat|change alpaca format to include citations and system prompt
+origin/1297-feat-gemini-agent-support|2024-07-01|shatfield4|add gemini agent support using untooled class
+origin/1759-bug-ui-bug-fixes|2024-06-24|Timothy Carambat|Add OpenAI compatible API support (#1757)
+origin/1686-feat-implement-winston-for-logging|2024-06-21|shatfield4|Merge branch 'master' into 1686-feat-implement-winston-for-logging
+origin/1536-bug-toggling-on-users-can-delete-workspaces-does-not-take-effect|2024-06-21|shatfield4|update translations and copy for delete workspace
+origin/agent-ui-mobile-styles|2024-06-11|shatfield4|implement mobile styles for agent skills ui
+origin/1522-feat-chromadb-support|2024-06-03|shatfield4|bump chroma package version and patch no collection bug
+origin/1595-bug-unable-to-get-live-web-search-and-browsing-agent-working-using-google-custom-search-engine-error-getaddrinfo-enotfound-http-errno-3008|2024-06-04|Kumar Shivendu|docs: Typo in Qdrant's name (#1598)
+origin/1582-bug-lm-studio-does-not-allow-for-different-model-selection|2024-05-31|Sean Hatfield|[FEAT] Add support for R files to be parsed as text (#1577)
+origin/1312-bug-usernames-should-not-be-case-sensitive-when-logging-in|2024-05-08|shatfield4|fix usernames to be case insensitive when creating users and logging in
+origin/1029-feat-hf-serverless-inference-api|2024-05-02|Sean Hatfield|[FEAT] Cohere LLM and embedder support (#1233)
+origin/1086-feat-implement-normalized-input-fields|2024-04-23|shatfield4|Merge branch 'master' into 1086-feat-implement-normalized-input-fields
+origin/knowledge-graph-support|2024-02-16|timothycarambat|sync similarityResponse method with all vdbs
+origin/644-bug-uploaded-file-name-does-not-match-the-displayed-file-name-after-the-upload|2024-01-24|timothycarambat|Add runtime metric to Telemetry

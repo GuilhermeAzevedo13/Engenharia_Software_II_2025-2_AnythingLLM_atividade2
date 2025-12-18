@@ -1,0 +1,21 @@
+branch|hash|date|author|subject
+master|6b54bc4c|2025-12-16|Marcello Fitton|Add Eslint Config in `/frontend` (#4785)
+master|a1e8763e|2025-12-16|Colin Perry|fix unnecessary scrollbar in workspace general appearance settings tab (#4791)
+master|bacd279e|2025-12-16|Timothy Carambat|hanging lint
+master|c4f19cec|2025-12-16|Marcello Fitton|Refactor `LLMPerformanceMonitor.measureStream()` to Use Options Object Pattern (#4786)
+master|556a7500|2025-12-16|Marcello Fitton|Update Google Search Option Description To Reference Documentation For Rate Limits (#4789)
+master|664f466e|2025-12-14|Timothy Carambat|4601 log model on response (#4781)
+master|bc3ad06d|2025-12-15|Irene Wang|fix(devcontainer): forward ports 3000/3001 (#4779)
+master|85692545|2025-12-12|Marcello Fitton|Upgrade MCP SDK to Latest (1.24.3) (#4773)
+master|a8bdc00a|2025-12-12|Colin Perry|Feat/cohere agent implementation (#4703)
+master|62b45a76|2025-12-12|Marcello Fitton|Implement Global Error Boundary (#4765)
+master|c7b16c9a|2025-12-12|Marcello Fitton|Upgrade to Multer 2.0.0 (#4768)
+master|7faee90e|2025-12-12|Marcello Fitton|Add Auth Token to Ollama Embedding Client (#4766)
+master|8aa78c2b|2025-12-12|Marcello Fitton|Fix Stale User Session with Proper `fetch` Error Handling (#4770)
+master|c76b0708|2025-12-12|Sean Hatfield|Fix pagination bug in paperless-ngx data connector (#4757)
+master|c0c3ee6c|2025-12-11|Sean Hatfield|Refactor frontend legacy JSON.parse with safeJsonParse (#4759)
+master|dbb79b67|2025-12-11|Marcello Fitton|Migrate to `bcryptjs` (#4767)
+master|25a72f71|2025-12-11|Timothy Carambat|Revert commit 8e0186f9accc2d2b4f90ac1f60513183f4077a2e - broken auth
+master|018e0cff|2025-12-11|Timothy Carambat|Lazy load Lancedb (#4764)
+master|baab837b|2025-12-10|Timothy Carambat|Bump `form-data` version (#4761)
+master|a7da757c|2025-12-10|Marcello Fitton|Migrate Azure OpenAI Integration To v1 API | Enable Streaming for Reasoning Models in Azure OpenAI Basic Inference Provider (#4744)
