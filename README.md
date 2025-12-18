@@ -121,16 +121,6 @@ if __name__ == "__main__":
 
 ---
 
-### 3️⃣ Quantidade de commits por branch
-
-O parâmetro `N_COMMITS_PER_BRANCH` define o tamanho da amostragem utilizada para inferir padrões de fluxo:
-
-```python
-N_COMMITS_PER_BRANCH = 10
-```
-
-Recomendação:
-- **5 a 10 commits** por branch são suficientes para capturar padrões sem gerar ruído excessivo.
 
 ---
 
