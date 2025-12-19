@@ -20,14 +20,7 @@ O script gera um dataset **estruturado e enxuto**, evitando excesso de dados e f
 
 ---
 
-## 📦 Pré-requisitos
 
-Antes de executar o script, certifique-se de ter:
-
-- **Git** instalado  
-```bash
-git --version
-```
 
 - **Python 3.9+**  
 ```bash
